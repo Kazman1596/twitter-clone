@@ -8,7 +8,10 @@ export default function Widgets({newsResults, randomUsersResults}) {
     const [followNum, setFollowNum] = useState(3)
 
     return (
+
         <div className='xl:w-[600px] hidden lg:inline ml-8 space-y-5'>
+            {/* News Widget */}
+
             <div className='w-[90%] xl:w-[75%] sticky top-0 bg-white py-1.5 z-50'>
                 <div className='flex items-center p-3 rounded-full bg-red-300 relative'>
                     <SearchIcon className='h-5 z-50 text-gray-500' />
@@ -23,6 +26,9 @@ export default function Widgets({newsResults, randomUsersResults}) {
                 ))}
                 <button onClick={()=>setArticleNum(articleNum + 3)} className='text-blue-300 pl-4 pb-3 hover:text-blue-400'>Show More</button>
             </div>
+
+            {/* Who To Follow Widget */}
+
             <div className='sticky top-16 text-gray-700 space-y-3 bg-gray-100 rounded-xl pt-2 w-[90%] xl:w-[75%]'>
                 <h4 className='font-bold text-xl px-4'>Who to Follow</h4>
                 {randomUsersResults.slice(0, followNum).map((randomUser) => (
