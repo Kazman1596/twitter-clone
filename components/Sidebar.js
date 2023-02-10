@@ -5,7 +5,7 @@ import {BellIcon, BookmarkIcon, ClipboardIcon, DotsCircleHorizontalIcon, DotsHor
 
 export default function Sidebar() {
     return (
-        <div className="hidden sm:flex flex-col p-2 xl:items-start fixed h-full">
+        <div className="hidden sm:flex flex-col p-2 xl:items-start fixed h-full xl:ml-24">
             {/* Twitter Logo (styling is a little buggy) */}
             <div className="hoverEffect p-0 hover:bg-blue-100 xl:px-1">
                 <Image className="flex items-center justify-center ml-2.5 mt-3" width='35' height='35' src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Twitter-logo.svg/2491px-Twitter-logo.svg.png' alt="logo"></Image>
