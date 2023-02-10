@@ -78,8 +78,8 @@ const Input = () => {
                     </div>
                     {selectedFile && (
                         <div>
-                            <XIcon onClick={() => setSelectedFile(null)} className="shadow-md rounded-full h-7 absolute cursor-pointer text-black" />
-                            <Image className={`${loading && 'animate-pulse'}`} src={selectedFile} width='400' height='400' alt='uploadedimg' />
+                            <XIcon onClick={() => setSelectedFile(null)} className="border border-gray-700 shadow-md rounded-full h-7 absolute cursor-pointer text-black" />
+                            <Image className={`${loading && 'animate-pulse'} rounded-lg`} src={selectedFile} width='400' height='400' alt='uploadedimg' />
                         </div>
                     )}
                     <div className="flex items-center justify-between pt-2.5">
