@@ -15,7 +15,7 @@ export default function signin({providers}) {
                         <img 
                             src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Twitter-logo.svg/2491px-Twitter-logo.svg.png' 
                             alt='twitter-logo'
-                            className='w-36 object-cover'
+                            className='w-36 h-auto object-cover'
                         />
                         <button onClick={() => signIn(provider.id, {callbackUrl: '/'})} className='my-10 bg-red-400 rounded-lg p-3 text-white hover:bg-red-500'>Sign in with {provider.name}</button>
                     </div>
