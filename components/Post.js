@@ -3,8 +3,10 @@ import { HeartIcon as HeartFilled } from '@heroicons/react/solid'
 import Moment from "react-moment";
 import {setDoc, doc, onSnapshot, collection, deleteDoc} from 'firebase/firestore'
 import {useSession, signIn} from 'next-auth/react'
-import { db } from '../firebase'
+import { db, storage } from '../firebase'
 import { useEffect, useState } from "react";
+import Image from "next/image";
+import { deleteObject, ref } from "firebase/storage";
 
 const Post = ({post}) => {
     const {data: session} = useSession()
@@ -35,12 +37,18 @@ const Post = ({post}) => {
         }
     }
         
+    async function deletePost() {
+        if (window.confirm("Are you sure you want to delete this post?")) {
+            deleteDoc(doc(db, 'posts', post.id))
+            deleteObject(ref(storage, `posts/${post.id}/image`))
+        }
 
+    }
 
     return (
         <div className="flex p-3 cursor-pointer border-b border-gray-200">
             {/* user image */}
-            <img className="h-11 w-11 rounded-full mr-4" src={post.data().userImg} alt='user_image' />
+            <Image className="h-11 w-11 rounded-full mr-4" src={post.data().userImg} width='50' height='50' alt='user_image' />
             {/* right side */}
             <div>
                 {/* Header */}
@@ -68,7 +76,9 @@ const Post = ({post}) => {
                 {/* icons */}
                 <div className="flex justify-between text-gray-500 p-2">
                     <ChatIcon className="h-9 w-9 hoverEffect p-2 hover:text-sky-500 hover:bg-sky-100"/>
-                    <TrashIcon className="h-9 w-9 hoverEffect p-2 hover:text-red-600 hover:bg-red-100"/>
+                    {session?.user.uid === post?.data().id && (
+                        <TrashIcon onClick={deletePost} className="h-9 w-9 hoverEffect p-2 hover:text-red-600 hover:bg-red-100"/>
+                    )}
                     <div className="flex items-center">
                         {hasLiked ? (<HeartFilled onClick={likePost} className="text-red-600 h-9 w-9 hoverEffect p-2 hover:text-red-600 hover:bg-red-100"/>) : (
 
