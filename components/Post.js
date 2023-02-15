@@ -9,12 +9,14 @@ import Image from "next/image";
 import { deleteObject, ref } from "firebase/storage";
 import { useRecoilState } from "recoil";
 import { modalState } from "../atom/modalAtom";
+import { postIdState } from "../atom/postIdAtom";
 
 const Post = ({post}) => {
     const {data: session} = useSession()
     const [ likes, setLikes ] = useState([])
     const [ hasLiked, setHasLiked ] = useState(false)
     const [open, setOpen] = useRecoilState(modalState)
+    const [postId, setPostId] = useRecoilState(postIdState)
 
     useEffect(() => {
         const unsubscribe = onSnapshot(
@@ -80,7 +82,14 @@ const Post = ({post}) => {
 
                 {/* icons */}
                 <div className="flex justify-between text-gray-500 p-2">
-                    <ChatIcon onClick={() => setOpen(!open)} className="h-9 w-9 hoverEffect p-2 hover:text-sky-500 hover:bg-sky-100"/>
+                    <ChatIcon onClick={() => {
+                        if (!session) {
+                            signIn()
+                        } else {
+                            setPostId(post?.id)
+                            setOpen(!open)
+                        }
+                    }} className="h-9 w-9 hoverEffect p-2 hover:text-sky-500 hover:bg-sky-100"/>
                     {session?.user.uid === post?.data().id && (
                         <TrashIcon onClick={deletePost} className="h-9 w-9 hoverEffect p-2 hover:text-red-600 hover:bg-red-100"/>
                     )}
