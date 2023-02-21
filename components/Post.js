@@ -14,6 +14,7 @@ import { postIdState } from "../atom/postIdAtom";
 const Post = ({post}) => {
     const {data: session} = useSession()
     const [ likes, setLikes ] = useState([])
+    const [ comments, setComments ] = useState([])
     const [ hasLiked, setHasLiked ] = useState(false)
     const [open, setOpen] = useRecoilState(modalState)
     const [postId, setPostId] = useRecoilState(postIdState)
@@ -21,6 +22,12 @@ const Post = ({post}) => {
     useEffect(() => {
         const unsubscribe = onSnapshot(
             collection(db, 'posts', post.id, 'likes'), (snapshot) => setLikes(snapshot.docs)
+        )
+    }, [db])
+    
+    useEffect(() => {
+        const unsubscribe = onSnapshot(
+            collection(db, 'posts', post.id, 'comments'), (snapshot) => setComments(snapshot.docs)
         )
     }, [db])
 
@@ -82,14 +89,22 @@ const Post = ({post}) => {
 
                 {/* icons */}
                 <div className="flex justify-between text-gray-500 p-2">
-                    <ChatIcon onClick={() => {
-                        if (!session) {
-                            signIn()
-                        } else {
-                            setPostId(post?.id)
-                            setOpen(!open)
-                        }
-                    }} className="h-9 w-9 hoverEffect p-2 hover:text-sky-500 hover:bg-sky-100"/>
+                    <div className="flex items-center select-none">
+                        <ChatIcon 
+                            onClick={() => {
+                                if (!session) {
+                                    signIn()
+                                } else {
+                                    setPostId(post?.id)
+                                    setOpen(!open)
+                                }
+                            }} 
+                            className="h-9 w-9 hoverEffect p-2 hover:text-sky-500 hover:bg-sky-100"
+                        />
+                        {comments.length > 0 && (
+                            <span className="text-sm">{comments.length}</span>
+                        )}
+                    </div>
                     {session?.user.uid === post?.data().id && (
                         <TrashIcon onClick={deletePost} className="h-9 w-9 hoverEffect p-2 hover:text-red-600 hover:bg-red-100"/>
                     )}
